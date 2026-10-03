@@ -1,5 +1,7 @@
 """Base class shared by every page object."""
 
+import re
+
 from playwright.sync_api import Locator, Page
 
 
@@ -20,6 +22,11 @@ class BasePage:
         self.cart_badge: Locator = page.locator('[data-test="shopping-cart-badge"]')
         self.menu_button: Locator = page.locator("#react-burger-menu-btn")
         self.logout_link: Locator = page.locator('[data-test="logout-sidebar-link"]')
+
+    @classmethod
+    def url_pattern(cls) -> re.Pattern[str]:
+        """Regex matching this page's absolute URL (for `expect(page).to_have_url`)."""
+        return re.compile(re.escape(cls.path) + r"$")
 
     def open(self) -> None:
         """Navigate directly to this page (relative to the configured base URL)."""

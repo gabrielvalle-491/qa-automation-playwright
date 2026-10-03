@@ -12,7 +12,7 @@ def test_valid_login_opens_inventory(login_page: LoginPage, page: Page) -> None:
     """standard_user lands on the product list."""
     login_page.login_as(STANDARD_USER)
 
-    expect(page).to_have_url(f"**{InventoryPage.path}")
+    expect(page).to_have_url(InventoryPage.url_pattern())
     expect(InventoryPage(page).title).to_have_text("Products")
 
 
@@ -21,7 +21,7 @@ def test_locked_out_user_is_rejected(login_page: LoginPage, page: Page) -> None:
     login_page.login_as(LOCKED_OUT_USER)
 
     expect(login_page.error).to_have_text("Epic sadface: Sorry, this user has been locked out.")
-    expect(page).not_to_have_url(f"**{InventoryPage.path}")
+    expect(page).not_to_have_url(InventoryPage.url_pattern())
 
 
 def test_wrong_password_shows_error(login_page: LoginPage) -> None:

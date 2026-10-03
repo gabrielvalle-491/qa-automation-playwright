@@ -70,6 +70,6 @@ def test_cart_persists_after_continue_shopping(inventory_page: InventoryPage, pa
 
     CartPage(page).continue_shopping_button.click()
 
-    expect(page).to_have_url(f"**{InventoryPage.path}")
+    expect(page).to_have_url(InventoryPage.url_pattern())
     expect(inventory_page.cart_badge).to_have_text("1")
     expect(inventory_page.remove_button(BACKPACK)).to_be_visible()

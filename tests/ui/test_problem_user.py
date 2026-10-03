@@ -50,4 +50,4 @@ def test_checkout_with_valid_information(problem_inventory_page: InventoryPage, 
 
     CheckoutInfoPage(page).fill_info(**CUSTOMER)
 
-    expect(page).to_have_url(f"**{CheckoutOverviewPage.path}", timeout=5_000)
+    expect(page).to_have_url(CheckoutOverviewPage.url_pattern(), timeout=5_000)

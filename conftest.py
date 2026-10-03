@@ -24,7 +24,7 @@ def _login(page: Page, user: User) -> InventoryPage:
     login.open()
     login.login_as(user)
     inventory = InventoryPage(page)
-    expect(page).to_have_url(f"**{InventoryPage.path}")
+    expect(page).to_have_url(InventoryPage.url_pattern())
     return inventory
 
 

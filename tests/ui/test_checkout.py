@@ -21,7 +21,7 @@ def checkout_info(inventory_page: InventoryPage, page: Page) -> CheckoutInfoPage
     inventory_page.add_to_cart(*ITEMS)
     inventory_page.open_cart()
     CartPage(page).checkout()
-    expect(page).to_have_url(f"**{CheckoutInfoPage.path}")
+    expect(page).to_have_url(CheckoutInfoPage.url_pattern())
     return CheckoutInfoPage(page)
 
 
@@ -31,11 +31,11 @@ def test_checkout_happy_path(checkout_info: CheckoutInfoPage, page: Page) -> Non
     checkout_info.fill_info(**CUSTOMER)
 
     overview = CheckoutOverviewPage(page)
-    expect(page).to_have_url(f"**{CheckoutOverviewPage.path}")
+    expect(page).to_have_url(CheckoutOverviewPage.url_pattern())
     overview.finish()
 
     complete = CheckoutCompletePage(page)
-    expect(page).to_have_url(f"**{CheckoutCompletePage.path}")
+    expect(page).to_have_url(CheckoutCompletePage.url_pattern())
     expect(complete.header).to_have_text("Thank you for your order!")
     expect(complete.cart_badge).to_be_hidden()
 
@@ -61,7 +61,7 @@ def test_checkout_form_validation(
     checkout_info.fill_info(first_name, last_name, postal_code)
 
     expect(checkout_info.error).to_have_text(message)
-    expect(page).to_have_url(f"**{CheckoutInfoPage.path}")
+    expect(page).to_have_url(CheckoutInfoPage.url_pattern())
 
 
 def test_order_totals_are_correct(checkout_info: CheckoutInfoPage, page: Page) -> None:
@@ -82,5 +82,5 @@ def test_cancel_checkout_returns_to_cart(checkout_info: CheckoutInfoPage, page: 
     checkout_info.cancel_button.click()
 
     cart = CartPage(page)
-    expect(page).to_have_url(f"**{CartPage.path}")
+    expect(page).to_have_url(CartPage.url_pattern())
     expect(cart.item_names).to_have_text(ITEMS)
